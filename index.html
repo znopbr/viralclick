@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Viral Click Agente de Carrosséis</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0A0A0A;
+      --lime: #AFFF00;
+      --lime-dark: #8CC800;
+      --glow-color: rgba(175, 255, 0, 0.5);
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-dark);
+      background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
+      background-size: 20px 20px;
+    }
+    .aspect-video {
+      aspect-ratio: 16 / 9;
+    }
+    .glow-on-focus:focus-within {
+      box-shadow: 0 0 15px var(--glow-color);
+    }
+    .text-glow {
+        text-shadow: 0 0 8px var(--glow-color);
+    }
+    /* Custom Loader Animation */
+    @keyframes scanner {
+      0% {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      25%, 75% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+    }
+    .scanner-loader {
+      width: 100px;
+      height: 100px;
+      position: relative;
+      border: 2px solid var(--lime);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .scanner-loader::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--lime), transparent);
+      animation: scanner 2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      box-shadow: 0 0 10px var(--glow-color);
+    }
+
+    /* Animated Flowchart Styles - Scroll-Triggered Edition */
+    @keyframes line-draw-vertical {
+        from { height: 0%; }
+        to { height: 100%; }
+    }
+    .line-draw-vertical-animation {
+        animation-name: line-draw-vertical;
+        animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+        animation-fill-mode: forwards;
+    }
+
+    .flowchart-step {
+      opacity: 0;
+      transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .flowchart-step.is-visible {
+        opacity: 1;
+    }
+
+    .step-card {
+        transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s;
+    }
+    .step-card--left {
+        transform: translateX(-30px) scale(0.95);
+    }
+    .flowchart-step.is-visible .step-card--left {
+        transform: translateX(0) scale(1);
+    }
+    .step-card--right {
+        transform: translateX(30px) scale(0.95);
+    }
+    .flowchart-step.is-visible .step-card--right {
+        transform: translateX(0) scale(1);
+    }
+    
+    .horizontal-line {
+        transform: scaleX(0);
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .horizontal-line--right { transform-origin: left; }
+    .flowchart-step.is-visible .horizontal-line--right { transform: scaleX(1); }
+    .horizontal-line--left { transform-origin: right; }
+    .flowchart-step.is-visible .horizontal-line--left { transform: scaleX(1); }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+    @keyframes icon-wrapper-glow {
+        0%, 100% { box-shadow: 0 0 10px rgba(175, 255, 0, 0.2), 0 0 5px rgba(175, 255, 0, 0.1) inset; }
+        50% { box-shadow: 0 0 25px rgba(175, 255, 0, 0.6), 0 0 10px rgba(175, 255, 0, 0.2) inset; }
+    }
+    
+    .icon-wrapper-glow, .icon-animation-pulse {
+      animation-play-state: paused;
+    }
+    .flowchart-step.is-visible .icon-animation-pulse {
+        animation: pulse 2.5s infinite ease-in-out;
+        animation-play-state: running;
+    }
+    .flowchart-step.is-visible .icon-wrapper-glow {
+        animation: icon-wrapper-glow 3s infinite ease-in-out;
+        animation-play-state: running;
+    }
+    
+    @keyframes button-pulse-glow {
+        0%, 100% {
+            box-shadow: 0 0 15px 0px var(--glow-color);
+        }
+        50% {
+            box-shadow: 0 0 30px 5px var(--glow-color);
+        }
+    }
+    .animate-button-pulse {
+        animation: button-pulse-glow 2.5s infinite ease-in-out;
+    }
+    
+    @keyframes button-explode {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+            box-shadow: 0 0 15px 0px var(--glow-color);
+        }
+        100% {
+            transform: scale(4);
+            opacity: 0;
+            box-shadow: 0 0 80px 40px var(--glow-color);
+        }
+    }
+    .animate-button-explode {
+        animation: button-explode 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    }
+
+    /* Social Proof Popup Animation */
+    @keyframes fade-in-and-out {
+        0% {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+        15%, 85% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        100% {
+            opacity: 0;
+            transform: translateY(-15px);
+        }
+    }
+    .animate-social-proof {
+        animation: fade-in-and-out 5s ease-in-out forwards;
+    }
+
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.1.1/",
+    "react": "https://esm.sh/react@^19.1.1",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.1/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.15.0",
+    "jszip": "https://esm.sh/jszip@3.10.1"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
